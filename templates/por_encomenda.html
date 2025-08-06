@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BR7 - Pronta Entrega</title>
+
+  <link rel="stylesheet" href="/static/css/index.css">
+  <link rel="stylesheet" href="/static/css/modal-carrinho.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<div class="espaco-navbar"></div>
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader");
+    loader.classList.add("fade-out");
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 400);
+  });
+</script>
+
+<body>
+
+
+  <div id="loader">
+  <div class="loader-content">
+    <img src="{{ url_for('static', filename='images/BR7-logo.PNG') }}" alt="BR7 Logo" class="logo-br7">
+    <p class="frase">A melhor loja de produtos esportivos do Brasil.</p>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <div class="loader-footer">
+    <p>Desenvolvido por <strong>NexusOne</strong></p>
+    <img src="{{ url_for('static', filename='images/nexus-logo.png') }}" alt="NexusOne Logo" class="logo-nexus">
+  </div>
+</div>
+  <header class="navbar">
+    <div class="menu-btn" onclick="abrirMenu()" id="botaoMenu">
+      <i class="fas fa-bars"></i>
+    </div>
+    <img src="/static/images/BR7-logo.PNG" class="logo"> 
+    <div class="carrinho-icon" onclick="abrirCarrinho()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="badge-carrinho" class="badge-carrinho">0</span>
+    </div>
+  </header>
+
+
+
+
+ 
+<nav class="menu-lateral" id="menuLateral">
+  <div class="menu-item">
+    <button class="toggle-submenu">Chuteiras ▾</button>
+    <div class="submenu">
+      
+      <!-- CAMPO -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Campo ▾</button>
+        <div class="submenu">
+          
+          <!-- TRAVA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava %}
+              <div class="menu-item">
+                <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                  <div class="submenu">
+                    {% for modelo in item.modelos %}
+                      <a href="/loja/chuteiras/campo/trava/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% else %}
+                <p>Nenhuma marca encontrada.</p>
+                {% endfor %}
+              </div>
+            </div>
+
+          <!-- TRAVA MISTA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava Mista ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava_mista %}
+              <div class="menu-item">
+                <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                <div class="submenu">
+                    {% for modelo in item.modelos %}
+                    <a href="/loja/chuteiras/campo/trava-mista/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% else %}
+                <p>Nenhuma marca encontrada.</p>
+                {% endfor %}
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- SOCIETY -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Society ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_society %}
+          <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                  <a href="/loja/chuteiras/society/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                  {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <p>Nenhuma marca encontrada.</p>
+            {% endfor %}
+        </div>
+      </div>
+
+      <!-- FUTSAL -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Futsal ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_futsal %}
+          <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                <a href="/loja/chuteiras/futsal/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <p>Nenhuma marca encontrada.</p>
+            {% endfor %}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- OUTROS ITENS FIXOS -->
+  <a href="/loja/tenis">Tênis</a>
+  <a href="/loja/bolsas">Bolsas</a>
+  <a href="/loja/pronta-entrega" id="aba-pronta-entrega">Pronta Entrega</a>
+  <a href="/" class="menu-ativo">Todos</a>
+</nav>
+
+
+
+ <!-- Carrossel de banners -->
+<section class="carrossel">
+  <div class="carrossel-inner">
+    <img src="/static/images/banner1.jpg" alt="Banner 1">
+    <img src="/static/images/banner2.jpg" alt="Banner 2">
+    <img src="/static/images/banner3.jpg" alt="Banner 3">
+  </div>
+</section>
+
+
+  <!-- Faixa preta com informações -->
+  <!-- Faixa preta com informações -->
+<!-- Faixa preta com informações -->
+<div class="faixa-animada">
+  <marquee behavior="scroll" direction="left">
+    <img src="{{ url_for('static', filename='icons/usamap.png') }}" alt="Produtos importados">
+    Produtos importados dos EUA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <img src="{{ url_for('static', filename='icons/entrega.png') }}" alt="Frete expresso">
+    Frete expresso para todo o Brasil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <img src="{{ url_for('static', filename='icons/cartao.png') }}" alt="Parcelamento">
+    Parcela em até 12x no cartão&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <img src="{{ url_for('static', filename='icons/devolucao.png') }}" alt="Troca e devolução">
+   Entre em contato conosco em caso de insatisfação&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <img src="{{ url_for('static', filename='icons/disconto.png') }}" alt="Desconto Pix">
+    5% OFF via Pix
+  </marquee>
+</div>
+
+
+
+
+
+
+
+<section class="por-encomenda">
+  
+  <h1>Por Encomenda</h1>
+
+  <!-- Chuteiras -->
+  <h2 id="encomenda-chuteira">Chuteiras</h2>
+  <div class="cards">
+    {% for produto in por_encomenda_chuteira %}
+      <div class="card produto-com-desconto" data-preco="{{ produto.preco }}">
+          <div class="faixa faixa-por-encomenda">POR ENCOMENDA</div>
+        <img src="{{ url_for('static', filename='uploads/' ~ (produto.imagem or 'default.jpg')) }}" alt="{{ produto.nome }}" loading="lazy">
+        <div class="card-body">
+          <div class="card-title">{{ produto.nome }}</div>
+            <div class="preco-original" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px; color: #888;">
+            <span class="preco-original-valor"></span>
+            <span class="desconto-badge">
+              20% OFF
+            </span>
+          </div>
+          <div class="preco">R$ {{ produto.preco }}</div>
+          <div class="no-pix">NO PIX</div>
+          <div class="parcelas" data-preco="{{ produto.preco }}"></div>
+          <a class="btn" href="/produto/{{ produto.id }}">Ver detalhes</a>
+        </div>
+      </div>
+    {% else %}
+      <p>Nenhuma chuteira por encomenda encontrada.</p>
+    {% endfor %}
+  </div>
+
+
+
+ 
+ 
+
+</section>
+
+
+  <!-- Modal do Carrinho -->
+  <div id="modal-carrinho">
+    <div class="modal-conteudo">
+      <button class="close-modal" onclick="fecharCarrinho()">&times;</button>
+      <h3>Carrinho</h3>
+      <ul id="lista-carrinho"></ul>
+      <p id="total-carrinho"></p>
+      <a href="/finalizar-pedido" target="_blank" class="btn-whatsapp" style="text-decoration: none;">
+  Finalizar Pedido
+</a>
+
+    </div>
+  </div>
+
+  
+  <script src="/static/js/menu.js"></script>
+  <script src="/static/js/carrinho.js"></script>
+
+
+
+<script>
+  document.querySelectorAll('.produto-com-desconto').forEach(card => {
+    const precoStr = card.getAttribute('data-preco');
+    if(precoStr) {
+      let preco = parseFloat(precoStr.replace(',', '.'));
+      if(!isNaN(preco)) {
+        const precoOriginal = preco / 0.8;  // preço antes de 20% de desconto
+        const precoOriginalValorEl = card.querySelector('.preco-original-valor');
+        if(precoOriginalValorEl) {
+          precoOriginalValorEl.textContent = `R$ ${precoOriginal.toFixed(2).replace('.', ',')}`;
+        }
+      }
+    }
+  });
+</script>
+
+
+
+
+
+<script>
+let ultimaPosicaoScroll = window.scrollY;
+const navbar = document.querySelector(".navbar");
+
+window.addEventListener("scroll", () => {
+  const posicaoAtual = window.scrollY;
+
+  if (posicaoAtual <= 10) {
+    // Estamos no topo — garantir que a navbar fique visível
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  } else if (posicaoAtual > ultimaPosicaoScroll) {
+    // Descendo — esconder
+    navbar.classList.remove("mostrar");
+    navbar.classList.add("esconder");
+  } else {
+    // Subindo — mostrar
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  }
+
+  ultimaPosicaoScroll = posicaoAtual;
+});
+
+</script>
+
+
+</body>
+
+
+<div id="footer-trigger" style="height: 1px;"></div>
+
+<footer class="footer-br7">
+  <div class="footer-wrapper">
+    <!-- CATEGORIAS -->
+    <div class="footer-column animar-scroll">
+  <h4>Categorias</h4>
+  <ul>
+    <li class="footer-submenu">
+      <a  class="submenu-toggle-footer">Chuteiras ▾</a>
+      <ul class="submenu-footer">
+        <li><a href="/loja/chuteiras/campo/trava">Trava</a></li>
+        <li><a href="/loja/chuteiras/campo/trava-mista">Trava Mista</a></li>
+        <li><a href="/loja/chuteiras/society">Society</a></li>
+        <li><a href="/loja/chuteiras/futsal">Futsal</a></li>
+      </ul>
+    </li>
+    <li><a href="/loja/tenis">Tênis</a></li>
+    <li><a href="/loja/bolsas">Bolsas</a></li>
+    <li><a href="/loja/pronta-entrega">Pronta Entrega</a></li>
+    <li><a href="/loja">Todos</a></li>
+  </ul>
+</div>
+
+<script>
+// Toggle submenu no footer
+document.querySelectorAll('.submenu-toggle-footer').forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const submenu = toggle.nextElementSibling;
+    const isOpen = submenu.style.display === 'block';
+    // Fecha todos antes de abrir
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+    submenu.style.display = isOpen ? 'none' : 'block';
+  });
+});
+
+// Fecha o submenu ao clicar fora
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.footer-submenu')) {
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+  }
+});
+</script>
+
+    <!-- LINKS ÚTEIS -->
+    <div class="footer-column animar-scroll">
+      <h4>Links Úteis</h4>
+      <ul>
+        <li><a href="/quem-somos">Quem Somos</a></li>
+        <li><a href="/duvidas-frequentes">Dúvidas Frequentes</a></li>
+        <li><a href="/depoimentos">Depoimentos</a></li>
+      </ul>
+    </div>
+
+    <!-- LEGAL -->
+    <div class="footer-column animar-scroll">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/politica-envio">Política de Envio</a></li>
+        <li><a href="/politica-privacidade">Política de Privacidade</a></li>
+        <li><a href="/politica-servico">Política de Serviço</a></li>
+        <li><a href="/termos-servico">Termos de Serviço</a></li>
+      </ul>
+    </div>
+
+   <!-- ATENDIMENTO -->
+    <div class="footer-column animar-scroll">
+      <h4>Atendimento</h4>
+      <p><strong>Whatsapp:</strong><br>(11) 94762-9000</p>
+      <div class="footer-icons-rs">
+        <a target="_blank" href="https://www.instagram.com/br7chuteiras?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/static/icons/instagram.png" alt="Instagram"></a>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGAMENTO -->
+  <div class="footer-icons payment-icons animar-scroll" style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; flex-wrap: wrap;">
+    <img src="/static/icons/visa_payment_method_card_icon_142729.svg" alt="Visa">
+    <img src="/static/icons/mastercard_old_payment_method_card_icon_142735.svg" alt="Mastercard">
+    <img src="/static/icons/elo_payment_method_card_icon_142740.svg" alt="Elo">
+    <img src="/static/icons/pix_icon_198027.svg" alt="Pix">
+  </div>
+
+  <!-- COPYRIGHT -->
+  <div class="footer-bottom animar-scroll">
+    <p>© 2025 BR7 Chuteiras. Todos os direitos reservados.</p>
+    <p>Desenvolvido por <strong><a href="https://nexusonebr.com" target="_blank" rel="noopener noreferrer">NexusOne</a></strong> - Desenvolvedores de Software e Websites</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.parcelas').forEach(el => {
+  const precoStr = el.dataset.preco;
+  if (precoStr) {
+    let preco = parseFloat(precoStr.replace(',', '.'));
+    if (!isNaN(preco)) {
+      // Acrescenta os R$10,00 ao valor
+      let precoComAcrecimo = preco + 10;
+
+      // Aplica juros de 3,49% ao mês por 12x (juros compostos)
+      let taxaJuros = 0.0349;
+      let parcelas = 12;
+      let parcela = precoComAcrecimo * ((taxaJuros * Math.pow(1 + taxaJuros, parcelas)) / (Math.pow(1 + taxaJuros, parcelas) - 1));
+
+      // Formata e exibe
+      el.textContent = `12x de R$ ${parcela.toFixed(2).replace('.', ',')}`;
+    }
+  }
+});
+</script>
+<script>
+  const elementos = document.querySelectorAll('.animar-scroll');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visivel');
+      } else {
+        entry.target.classList.remove('visivel'); // Reverso quando sai da tela
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  elementos.forEach(el => observer.observe(el));
+</script>
+
+
+
+</html>
+

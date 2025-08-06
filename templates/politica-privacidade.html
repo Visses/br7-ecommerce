@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidade - BR7 Chuteiras</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+  <link rel="stylesheet" href="/static/css/modal-carrinho.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .conteudo-politica {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .conteudo-politica h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .conteudo-politica p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader");
+    loader.classList.add("fade-out");
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 400);
+  });
+</script>
+
+<body>
+
+
+  <div id="loader">
+  <div class="loader-content">
+    <img src="{{ url_for('static', filename='images/BR7-logo.PNG') }}" alt="BR7 Logo" class="logo-br7">
+    <p class="frase">A melhor loja de produtos esportivos do Brasil.</p>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <div class="loader-footer">
+    <p>Desenvolvido por <strong>NexusOne</strong></p>
+    <img src="{{ url_for('static', filename='images/nexus-logo.png') }}" alt="NexusOne Logo" class="logo-nexus">
+  </div>
+</div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="menu-btn" onclick="abrirMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+    <img src="/static/images/BR7-logo.PNG" class="logo">
+    <div class="carrinho-icon" onclick="abrirCarrinho()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="badge-carrinho" class="badge-carrinho">0</span>
+    </div>
+  </header>
+  <div class="espaco-navbar"></div>
+  
+ 
+<nav class="menu-lateral" id="menuLateral">
+  <div class="menu-item">
+    <button class="toggle-submenu">Chuteiras ▾</button>
+    <div class="submenu">
+
+      <!-- CAMPO -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Campo ▾</button>
+        <div class="submenu">
+
+          <!-- TRAVA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava %}
+                <div class="menu-item">
+                  <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                  <div class="submenu">
+                    {% for modelo in item.modelos %}
+                      <a href="/loja/chuteiras/campo/trava/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% else %}
+                <p>Nenhuma marca encontrada.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- TRAVA MISTA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava Mista ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava_mista %}
+                <div class="menu-item">
+                  <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                  <div class="submenu">
+                    {% for modelo in item.modelos %}
+                      <a href="/loja/chuteiras/campo/trava-mista/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% else %}
+                <p>Nenhuma marca encontrada.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SOCIETY -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Society ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_society %}
+            <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                  <a href="/loja/chuteiras/society/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <p>Nenhuma marca encontrada.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- FUTSAL -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Futsal ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_futsal %}
+            <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                  <a href="/loja/chuteiras/futsal/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <p>Nenhuma marca encontrada.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OUTROS ITENS FIXOS -->
+  <a href="/loja/tenis">Tênis</a>
+  <a href="/loja/bolsas">Bolsas</a>
+  <a href="/loja/pronta-entrega" id="aba-pronta-entrega">Pronta Entrega</a>
+  <a href="/" class="menu-ativo">Todos</a>
+</nav>
+
+<main class="conteudo-politica">
+<h1>Política de Privacidade</h1>
+
+<p>Na BR7 Chuteiras, respeitamos a sua privacidade e estamos comprometidos em proteger os dados pessoais que você nos fornece. Esta Política de Privacidade descreve como coletamos, usamos, armazenamos e compartilhamos suas informações ao acessar ou utilizar nosso site e serviços.</p>
+
+<h2>1. Coleta de Informações</h2>
+<p>Coletamos os seguintes tipos de dados pessoais quando você interage com nosso site:</p>
+<ul>
+  <li><strong>Informações fornecidas por você:</strong> nome completo, endereço, e-mail, telefone, CPF (quando necessário para emissão de nota fiscal) e dados de pagamento;</li>
+  <li><strong>Informações de navegação:</strong> endereço IP, tipo de navegador, páginas visitadas, duração da visita e outras métricas via cookies e tecnologias similares;</li>
+  <li><strong>Dados de contato:</strong> fornecidos por formulários, chats ou WhatsApp para atendimento ao cliente ou suporte;</li>
+</ul>
+
+<h2>2. Finalidade do Uso</h2>
+<p>Seus dados são utilizados para os seguintes fins:</p>
+<ul>
+  <li>Processamento de compras e entregas;</li>
+  <li>Envio de e-mails de confirmação e atualizações do pedido;</li>
+  <li>Atendimento ao cliente via WhatsApp, e-mail ou redes sociais;</li>
+  <li>Envio de promoções, novidades e cupons de desconto (com consentimento);</li>
+  <li>Análises estatísticas e melhorias na experiência do usuário no site.</li>
+</ul>
+
+<h2>3. Compartilhamento de Dados</h2>
+<p>Não vendemos ou compartilhamos seus dados com terceiros, exceto nos seguintes casos:</p>
+<ul>
+  <li>Prestadores de serviço logístico (transportadoras e Correios);</li>
+  <li>Processadores de pagamento (ex: Mercado Pago, Stripe, etc.);</li>
+  <li>Obrigação legal ou solicitação judicial.</li>
+</ul>
+
+<h2>4. Armazenamento e Segurança</h2>
+<p>Armazenamos seus dados em servidores seguros, utilizando criptografia e medidas de segurança para proteger contra acessos não autorizados, alterações, divulgação ou destruição.</p>
+
+<h2>5. Cookies</h2>
+<p>Utilizamos cookies para melhorar sua navegação, lembrar suas preferências e personalizar conteúdo. Você pode configurar seu navegador para recusar cookies, mas isso pode limitar algumas funcionalidades do site.</p>
+
+<h2>6. Seus Direitos</h2>
+<p>Você tem direito de:</p>
+<ul>
+  <li>Acessar seus dados pessoais armazenados;</li>
+  <li>Corrigir dados desatualizados ou incorretos;</li>
+  <li>Solicitar a exclusão dos seus dados, exceto quando houver obrigação legal de retenção;</li>
+  <li>Revogar o consentimento para o uso dos dados a qualquer momento.</li>
+</ul>
+<p>Basta entrar em contato pelo nosso e-mail <strong>contato@br7chuteiras.com</strong> ou WhatsApp para exercer esses direitos.</p>
+
+<h2>7. Atualizações desta Política</h2>
+<p>Podemos atualizar esta Política de Privacidade periodicamente. Recomendamos que você revise este documento com frequência. Alterações relevantes serão notificadas em nosso site.</p>
+
+<h2>8. Contato</h2>
+<p>Se você tiver qualquer dúvida sobre esta política ou sobre como tratamos seus dados, entre em contato conosco:</p>
+<ul>
+  <li><strong>WhatsApp:</strong> (11) 94762-9000</li>
+  
+</ul>
+
+<p><em>Última atualização: 04 de agosto de 2025</em></p>
+
+</main>
+  
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/filtro.js"></script>
+  <script src="/static/js/menu.js"></script>
+  <script src="/static/js/carrinho.js"></script>
+  
+<script>
+let ultimaPosicaoScroll = window.scrollY;
+const navbar = document.querySelector(".navbar");
+
+window.addEventListener("scroll", () => {
+  const posicaoAtual = window.scrollY;
+
+  if (posicaoAtual <= 10) {
+    // Estamos no topo — garantir que a navbar fique visível
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  } else if (posicaoAtual > ultimaPosicaoScroll) {
+    // Descendo — esconder
+    navbar.classList.remove("mostrar");
+    navbar.classList.add("esconder");
+  } else {
+    // Subindo — mostrar
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  }
+
+  ultimaPosicaoScroll = posicaoAtual;
+});
+
+</script>
+
+</body>
+
+<div id="footer-trigger" style="height: 1px;"></div>
+
+<footer class="footer-br7">
+  <div class="footer-wrapper">
+    <!-- CATEGORIAS -->
+   <div class="footer-column animar-scroll">
+  <h4>Categorias</h4>
+  <ul>
+    <li class="footer-submenu">
+      <a  class="submenu-toggle-footer">Chuteiras ▾</a>
+      <ul class="submenu-footer">
+        <li><a href="/loja/chuteiras/campo/trava">Trava</a></li>
+        <li><a href="/loja/chuteiras/campo/trava-mista">Trava Mista</a></li>
+        <li><a href="/loja/chuteiras/society">Society</a></li>
+        <li><a href="/loja/chuteiras/futsal">Futsal</a></li>
+      </ul>
+    </li>
+    <li><a href="/loja/tenis">Tênis</a></li>
+    <li><a href="/loja/bolsas">Bolsas</a></li>
+    <li><a href="/loja/pronta-entrega">Pronta Entrega</a></li>
+    <li><a href="/">Todos</a></li>
+  </ul>
+</div>
+
+<script>
+// Toggle submenu no footer
+document.querySelectorAll('.submenu-toggle-footer').forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const submenu = toggle.nextElementSibling;
+    const isOpen = submenu.style.display === 'block';
+    // Fecha todos antes de abrir
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+    submenu.style.display = isOpen ? 'none' : 'block';
+  });
+});
+
+// Fecha o submenu ao clicar fora
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.footer-submenu')) {
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+  }
+});
+</script>
+
+    <!-- LINKS ÚTEIS -->
+    <div class="footer-column animar-scroll">
+      <h4>Links Úteis</h4>
+      <ul>
+        <li><a href="/quem-somos">Quem Somos</a></li>
+        <li><a href="/duvidas-frequentes">Dúvidas Frequentes</a></li>
+        <li><a href="/depoimentos">Depoimentos</a></li>
+      </ul>
+    </div>
+
+    <!-- LEGAL -->
+    <div class="footer-column animar-scroll">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/politica-envio">Política de Envio</a></li>
+        <li><a href="/politica-privacidade">Política de Privacidade</a></li>
+        <li><a href="/politica-servico">Política de Serviço</a></li>
+        <li><a href="/termos-servico">Termos de Serviço</a></li>
+      </ul>
+    </div>
+
+    <!-- ATENDIMENTO -->
+    <div class="footer-column animar-scroll">
+      <h4>Atendimento</h4>
+      <p><strong>Whatsapp:</strong><br>(11) 94762-9000</p>
+      <div class="footer-icons-rs">
+        <a target="_blank" href="https://www.instagram.com/br7chuteiras?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/static/icons/instagram.png" alt="Instagram"></a>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGAMENTO -->
+  <div class="footer-icons payment-icons animar-scroll" style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; flex-wrap: wrap;">
+    <img src="/static/icons/visa_payment_method_card_icon_142729.svg" alt="Visa">
+    <img src="/static/icons/mastercard_old_payment_method_card_icon_142735.svg" alt="Mastercard">
+    <img src="/static/icons/elo_payment_method_card_icon_142740.svg" alt="Elo">
+    <img src="/static/icons/pix_icon_198027.svg" alt="Pix">
+  </div>
+
+  <!-- COPYRIGHT -->
+  <div class="footer-bottom animar-scroll">
+    <p>© 2025 BR7 Chuteiras. Todos os direitos reservados.</p>
+    <p>Desenvolvido por <strong><a href="https://nexusonebr.com" target="_blank" rel="noopener noreferrer">NexusOne</a></strong> - Desenvolvedores de Software e Websites</p>
+  </div>
+</footer>
+
+
+<script>
+  const elementos = document.querySelectorAll('.animar-scroll');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visivel');
+      } else {
+        entry.target.classList.remove('visivel'); // Reverso quando sai da tela
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  elementos.forEach(el => observer.observe(el));
+</script>
+
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Depoimentos - BR7 Chuteiras</title>
+  <link rel="stylesheet" href="/static/css/index.css" />
+  <link rel="stylesheet" href="/static/css/modal-carrinho.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .galeria-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .galeria-titulo {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+    }
+
+    /* Deixar as galerias em coluna vertical (um embaixo do outro) */
+    .galeria-imagens,
+    .galeria-videos {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 600px; /* altura fixa para rolagem */
+      overflow-y: auto;
+      padding-right: 0.5rem; /* espaço para scrollbar */
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .galeria-imagens img,
+    .galeria-videos video {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      align-self: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Esconder scrollbars no WebKit, mas deixar visível no Firefox */
+    .galeria-imagens::-webkit-scrollbar,
+    .galeria-videos::-webkit-scrollbar {
+      width: 8px;
+    }
+    .galeria-imagens::-webkit-scrollbar-thumb,
+    .galeria-videos::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.1);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader");
+    loader.classList.add("fade-out");
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 400);
+  });
+</script>
+
+<body>
+
+
+  <div id="loader">
+  <div class="loader-content">
+    <img src="{{ url_for('static', filename='images/BR7-logo.PNG') }}" alt="BR7 Logo" class="logo-br7">
+    <p class="frase">A melhor loja de produtos esportivos do Brasil.</p>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <div class="loader-footer">
+    <p>Desenvolvido por <strong>NexusOne</strong></p>
+    <img src="{{ url_for('static', filename='images/nexus-logo.png') }}" alt="NexusOne Logo" class="logo-nexus">
+  </div>
+</div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="menu-btn" onclick="abrirMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+    <img src="/static/images/BR7-logo.PNG" class="logo" />
+    <div class="carrinho-icon" onclick="abrirCarrinho()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="badge-carrinho" class="badge-carrinho">0</span>
+    </div>
+  </header>
+
+  <div class="espaco-navbar"></div>
+
+  
+<nav class="menu-lateral" id="menuLateral">
+  <div class="menu-item">
+    <button class="toggle-submenu">Chuteiras ▾</button>
+    <div class="submenu">
+
+      <!-- CAMPO -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Campo ▾</button>
+        <div class="submenu">
+
+          <!-- TRAVA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava %}
+                <div class="menu-item">
+                  <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                  <div class="submenu">
+                    {% for modelo in item.modelos %}
+                      <a href="/loja/chuteiras/campo/trava/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% else %}
+                <p>Nenhuma marca encontrada.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- TRAVA MISTA -->
+          <div class="menu-item">
+            <button class="toggle-submenu">Trava Mista ▾</button>
+            <div class="submenu">
+              {% for item in chuteiras_campo_trava_mista %}
+                <div class="menu-item">
+                  <button class="toggle-submenu">{{ item.marca }} ▾</button>
+                  <div class="submenu">
+                    {% for modelo in item.modelos %}
+                      <a href="/loja/chuteiras/campo/trava-mista/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% else %}
+                <p>Nenhuma marca encontrada.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SOCIETY -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Society ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_society %}
+            <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                  <a href="/loja/chuteiras/society/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <p>Nenhuma marca encontrada.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- FUTSAL -->
+      <div class="menu-item">
+        <button class="toggle-submenu">Futsal ▾</button>
+        <div class="submenu">
+          {% for item in chuteiras_futsal %}
+            <div class="menu-item">
+              <button class="toggle-submenu">{{ item.marca }} ▾</button>
+              <div class="submenu">
+                {% for modelo in item.modelos %}
+                  <a href="/loja/chuteiras/futsal/{{ item.marca | lower | replace(' ', '-') }}/{{ modelo | lower | replace(' ', '-') }}">{{ modelo }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <p>Nenhuma marca encontrada.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OUTROS ITENS FIXOS -->
+  <a href="/loja/tenis">Tênis</a>
+  <a href="/loja/bolsas">Bolsas</a>
+  <a href="/loja/pronta-entrega" id="aba-pronta-entrega">Pronta Entrega</a>
+  <a href="/">Todos</a>
+</nav>
+
+
+  <!-- CONTEÚDO -->
+  <main class="galeria-container">
+    <h1 class="galeria-titulo">Depoimentos em Imagens</h1>
+    <div class="galeria-imagens">
+      {% for i in range(15) %}
+        <img src="/static/images/depoimentos/img{{ i + 1 }}.PNG" alt="Depoimento {{ i + 1 }}" />
+      {% endfor %}
+    </div>
+
+    <h1 class="galeria-titulo">Depoimentos em Vídeos</h1>
+    <div class="galeria-videos">
+      {% for i in range(8) %}
+        <video src="/static/videos/depoimentos/video{{ i + 1 }}.mp4" controls></video>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/filtro.js"></script>
+  <script src="/static/js/menu.js"></script>
+  <script src="/static/js/carrinho.js"></script>
+  
+
+<script>
+let ultimaPosicaoScroll = window.scrollY;
+const navbar = document.querySelector(".navbar");
+
+window.addEventListener("scroll", () => {
+  const posicaoAtual = window.scrollY;
+
+  if (posicaoAtual <= 10) {
+    // Estamos no topo — garantir que a navbar fique visível
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  } else if (posicaoAtual > ultimaPosicaoScroll) {
+    // Descendo — esconder
+    navbar.classList.remove("mostrar");
+    navbar.classList.add("esconder");
+  } else {
+    // Subindo — mostrar
+    navbar.classList.remove("esconder");
+    navbar.classList.add("mostrar");
+  }
+
+  ultimaPosicaoScroll = posicaoAtual;
+});
+
+</script>
+</body>
+<div id="footer-trigger" style="height: 1px;"></div>
+
+<footer class="footer-br7">
+  <div class="footer-wrapper">
+    <!-- CATEGORIAS -->
+    <div class="footer-column animar-scroll">
+  <h4>Categorias</h4>
+  <ul>
+    <li class="footer-submenu">
+      <a  class="submenu-toggle-footer">Chuteiras ▾</a>
+      <ul class="submenu-footer">
+        <li><a href="/loja/chuteiras/campo/trava">Trava</a></li>
+        <li><a href="/loja/chuteiras/campo/trava-mista">Trava Mista</a></li>
+        <li><a href="/loja/chuteiras/society">Society</a></li>
+        <li><a href="/loja/chuteiras/futsal">Futsal</a></li>
+      </ul>
+    </li>
+    <li><a href="/loja/tenis">Tênis</a></li>
+    <li><a href="/loja/bolsas">Bolsas</a></li>
+    <li><a href="/loja/pronta-entrega">Pronta Entrega</a></li>
+    <li><a href="/">Todos</a></li>
+  </ul>
+</div>
+
+<script>
+// Toggle submenu no footer
+document.querySelectorAll('.submenu-toggle-footer').forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const submenu = toggle.nextElementSibling;
+    const isOpen = submenu.style.display === 'block';
+    // Fecha todos antes de abrir
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+    submenu.style.display = isOpen ? 'none' : 'block';
+  });
+});
+
+// Fecha o submenu ao clicar fora
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.footer-submenu')) {
+    document.querySelectorAll('.submenu-footer').forEach(sm => sm.style.display = 'none');
+  }
+});
+</script>
+
+    <!-- LINKS ÚTEIS -->
+    <div class="footer-column animar-scroll">
+      <h4>Links Úteis</h4>
+      <ul>
+        <li><a href="/quem-somos">Quem Somos</a></li>
+        <li><a href="/duvidas-frequentes">Dúvidas Frequentes</a></li>
+        <li><a href="/depoimentos">Depoimentos</a></li>
+      </ul>
+    </div>
+
+    <!-- LEGAL -->
+    <div class="footer-column animar-scroll">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/politica-envio">Política de Envio</a></li>
+        <li><a href="/politica-privacidade">Política de Privacidade</a></li>
+        <li><a href="/politica-servico">Política de Serviço</a></li>
+        <li><a href="/termos-servico">Termos de Serviço</a></li>
+      </ul>
+    </div>
+
+ <!-- ATENDIMENTO -->
+    <div class="footer-column animar-scroll">
+      <h4>Atendimento</h4>
+      <p><strong>Whatsapp:</strong><br>(11) 94762-9000</p>
+      <div class="footer-icons-rs">
+        <a target="_blank" href="https://www.instagram.com/br7chuteiras?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/static/icons/instagram.png" alt="Instagram"></a>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGAMENTO -->
+  <div class="footer-icons payment-icons animar-scroll" style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; flex-wrap: wrap;">
+    <img src="/static/icons/visa_payment_method_card_icon_142729.svg" alt="Visa">
+    <img src="/static/icons/mastercard_old_payment_method_card_icon_142735.svg" alt="Mastercard">
+    <img src="/static/icons/elo_payment_method_card_icon_142740.svg" alt="Elo">
+    <img src="/static/icons/pix_icon_198027.svg" alt="Pix">
+  </div>
+
+  <!-- COPYRIGHT -->
+  <div class="footer-bottom animar-scroll">
+    <p>© 2025 BR7 Chuteiras. Todos os direitos reservados.</p>
+    <p>Desenvolvido por <strong><a href="https://nexusonebr.com" target="_blank" rel="noopener noreferrer">NexusOne</a></strong> - Desenvolvedores de Software e Websites</p>
+  </div>
+</footer>
+
+
+<script>
+  const elementos = document.querySelectorAll('.animar-scroll');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visivel');
+      } else {
+        entry.target.classList.remove('visivel'); // Reverso quando sai da tela
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  elementos.forEach(el => observer.observe(el));
+</script>
+
+</html>
